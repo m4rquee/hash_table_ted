@@ -12,11 +12,20 @@ class HashTable {
 	static_assert(is_base_of<Hashable, KeyType>::value, "KeyType must derive from Hashable");
 
 public:
-	HashTable(unsigned int);
+	HashTable();
 	~HashTable();
+	HashTable(unsigned int);
 
 private:
 	int size;
+
+	struct Item {
+		KeyType* key;
+		DataType* data;
+		Item* next;
+	} Item;
+
+	Item* table;
 };
 
 template<class KeyType, typename DataType>
@@ -25,6 +34,12 @@ HashTable<KeyType, DataType>::HashTable(unsigned int size) {
 		throw invalid_argument("Size must be higher than zero");
 
 	this->size = size;
+	this->table = new Item[this->size];
+}
+
+template<class KeyType, typename DataType>
+HashTable<KeyType, DataType>::HashTable()
+{
 }
 
 template<class KeyType, typename DataType>
